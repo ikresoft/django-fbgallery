@@ -1,9 +1,7 @@
 import urllib2
-import urllib
 import django.utils.simplejson as json
 from django.shortcuts import render_to_response
 from django.template import RequestContext, defaultfilters
-from django.http import Http404
 from django.core.cache import cache
 
 from django.conf import settings
@@ -51,3 +49,15 @@ def display_album(request, album_id, fb_id):
         'photos': photos,
     })
     return render_to_response('fbgallery/album.html', context_instance=data)
+
+
+def return_album(album_id, limit=16):
+    album = get_graph_result("%s/%s" % (graph_url, album_id))
+    photos_url = "%s/%s/photos" % (graph_url, album_id)
+    photos = get_graph_result(photos_url)["data"][:limit]
+
+    data = {
+        'album': album,
+        'photos': photos,
+    }
+    return data

@@ -1,0 +1,7 @@
+<ul class="gallery-list lightbox">
+{% for photo in photos %}
+    <li>
+        <a  href="{{ photo.source }}" target="_self" data-rel="prettyPhoto[gallery1]"><img width="60" height="60" src="{{ photo.picture }}"></a>
+    </li>
+{% endfor %}
+</ul>
