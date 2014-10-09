@@ -7,7 +7,7 @@ from django.core.cache import cache
 from django.conf import settings
 
 graph_url = 'https://graph.facebook.com'
-albums_url = '%s/%s/albums?fields=id,name,cover_photo&limit=10000' % (graph_url, settings.FB_PAGE_ID)
+albums_url = '%s/%s/albums?fields=id,name,cover_photo&limit=10000&access_token=%s|%s' % (graph_url, settings.FB_PAGE_ID, settings.FB_APP_ID, settings.FB_APP_SECRET)
 cache_expires = getattr(settings, 'CACHE_EXPIRES', 30)
 
 
