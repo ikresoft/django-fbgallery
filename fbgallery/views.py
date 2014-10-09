@@ -8,7 +8,6 @@ from django.conf import settings
 
 graph_url = 'https://graph.facebook.com'
 access_token = 'access_token=%s|%s' % (settings.FB_APP_ID, settings.FB_APP_SECRET)
-albums_url = '%s/%s/albums?fields=id,name,cover_photo&limit=10000&%s' % (graph_url, settings.FB_PAGE_ID, access_token)
 cache_expires = getattr(settings, 'CACHE_EXPIRES', 30)
 
 
@@ -27,7 +26,17 @@ def get_graph_result(url):
     return data
 
 
+def get_latest_album():
+    albums_url = '%s/%s/albums?fields=id,name,cover_photo&limit=1&%s' % (graph_url, settings.FB_PAGE_ID, access_token)
+    album = get_graph_result(albums_url)["data"][0]
+    cover_photo_url = "%s/%s/picture" % (graph_url, album["id"])
+    album["src"] = cover_photo_url
+
+    return {'album': album}
+
+
 def display_albums(request):
+    albums_url = '%s/%s/albums?fields=id,name,cover_photo&limit=10000&%s' % (graph_url, settings.FB_PAGE_ID, access_token)
     albums = get_graph_result(albums_url)["data"]
     for i in range(len(albums)):
         album = albums[i]
