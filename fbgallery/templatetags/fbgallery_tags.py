@@ -6,7 +6,10 @@ register = template.Library()
 
 @register.inclusion_tag('fbgallery/templatetags/small_photos.html')
 def timeline_photos():
-    return return_album('191210974230781')
+    try:
+        return return_album('191210974230781')
+    except:
+        pass
 
 
 @register.inclusion_tag('fbgallery/templatetags/latest_album.html')
