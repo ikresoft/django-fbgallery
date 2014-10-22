@@ -23,8 +23,10 @@ def get_graph_result(url):
         data = json.loads(response)
         if cache_expires > 0:
             cache.set(cachename, data, cache_expires*60)
-    return data
-
+    try:
+        return data
+    except:
+        return False
 
 def get_latest_album():
     albums_url = '%s/%s/albums?fields=id,name,cover_photo&limit=1&%s' % (graph_url, settings.FB_PAGE_ID, access_token)
@@ -58,7 +60,10 @@ def return_album(album_id, limit=16):
         'album': album,
         'photos': photos,
     }
-    return data
+    try:
+        return data
+    except:
+        return False
 
 
 def display_album(request, album_id):
